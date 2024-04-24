@@ -1,17 +1,35 @@
-# This is a sample Python script.
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+img = plt.imread("test.tiff")
+npimg = np.array(img, dtype=float)
+
+# get the red rgb from for all pixels and collect them to one list
+red = []
+green = []
+blue = []
+for zeile in range(len(npimg)):
+    for spalten in range(len(npimg[zeile])):
+        red.append(npimg[zeile][spalten][0])
+        green.append(npimg[zeile][spalten][1])
+        blue.append(npimg[zeile][spalten][2])
+
+fix, ax = plt.subplots(nrows=1, ncols=1)
+ax.grid(which='both', color="0.65", linestyle='--')
+h = ax.hist(red, bins=256, range=(-0.5, 255), histtype="step", color="r")
+h = ax.hist(green, bins=256, range=(-0.5, 255), histtype="step", color="g")
+h = ax.hist(blue, bins=256, range=(-0.5, 255), histtype="step", color="b")
+plt.show()
 
 
-import sympy as sp
-
-a_N=sp.symbols("a_N")
-a_M=sp.symbols("a_M")
-a_0=sp.symbols("a_0")
-eq=sp.Eq(a_N,a_M*(a_M/a_0)/(sp.sqrt(1+(a_M/a_0)**2)))
-
-print(sp.solve(eq,a_M))
+def PrintColor(name, color):
+    print(name, ":   ","Pixel=  ", len(color)
+          ,"Min=   ",min(color),
+          "Max=  ", max(color),
+          "Mean=  ", np.average(color),
+          "Signma= ", np.std(color, dtype=np.float64))
 
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+PrintColor("Red",red)
+PrintColor("Green",green)
+PrintColor("Blue",blue)
